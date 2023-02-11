@@ -3,110 +3,59 @@
 
 class Node {
 public:
-
-    Node(HashNode* data) {
-        this->data = data;
-        next = nullptr;
-        prev = nullptr;
+    int key;
+    int zipcode;
+    String first_name;
+    String last_name;
+    bool voted;
+    Node(int key, int zipcode, String first_name, String last_name, bool voted) {
+        this->key = key;
+        this->zipcode = zipcode;
+        this->first_name = first_name;
+        this->last_name = last_name;
+        this->voted = voted;
+        this->next = NULL;
     }
-
-    Node* next;
-    Node* prev;
-    HashNode* data;
+    Node *next;
 };
 
-
-
+//declare a basic linked list, which will be used to make the primary and the overflow buckets.
 class LinkedList {
 public:
-    LinkedList();
-    ~LinkedList();
-    void insert(int key, int value);
-    int get(int key);
-    void remove(int key);
-    void print();
-    bool isEmpty();
-    HashNode* search();
+	Node node;
+
+    //this is like a constructor, and defines a single linked list element.
+    LinkedList(){
+        this->node = Node(0, 0, "", "", 0);
+    }
+    LinkedList(int key, int zipcode, String first_name, String last_name, bool voted){
+        this->node = Node(key, zipcode, first_name, last_name, voted);
+    }
+    add_node(int key, int zipcode, String first_name, String last_name, bool voted){
+        Node *new_node = new Node(key, zipcode, first_name, last_name, voted);
+        if (this->next == NULL){
+            this->next = new_node;
+        }
+        else{
+            Node *temp = this->next;
+            while (temp->next != NULL){
+                temp = temp->next;
+            }
+            temp->next = new_node;
+        }
+    }
 };
 
-LinkedList::LinkedList() {
-    head = nullptr;
-    tail = nullptr;
-}
-
-LinkedList::~LinkedList() {
-    Node* temp = head;
-    while (temp != nullptr) {
-        Node* next = temp->next;
-        delete temp;
-        temp = next;
-    }
-}
-
-void LinkedList::insert(int key, int value) {
-    Node* newNode = new Node(key, value);
-    if (head == nullptr) {
-        head = newNode;
-        tail = newNode;
-    } else {
-        tail->next = newNode;
-        newNode->prev = tail;
-        tail = newNode;
-    }
-}
-
-int LinkedList::get(int key) {
-    Node* temp = head;
-    while (temp != nullptr) {
-        if (temp->key == key) {
-            return temp->value;
-        }
-        temp = temp->next;
-    }
-    return -1;
-}
-
-void LinkedList::remove(int key) {
-    Node* temp = head;
-    while (temp != nullptr) {
-        if (temp->key == key) {
-            if (temp->prev != nullptr) {
-                temp->prev->next = temp->next;
-            } else {
-                head = temp->next;
-            }
-            if (temp->next != nullptr) {
-                temp->next->prev = temp->prev;
-            } else {
-                tail = temp->prev;
-            }
-            delete temp;
-            return;
-        }
-        temp = temp->next;
-    }
-}
-
-void LinkedList::print() {
-    Node* temp = head;
-    while (temp != nullptr) {
-        cout << temp->key << " " << temp->value << endl;
-        temp = temp->next;
-    }
-}
-
-bool LinkedList::isEmpty() {
-    return head == nullptr;
-}
-
-HashNode* LinkedList::search() {
-    Node* temp = head;
-    while (temp != nullptr) {
-        if (temp->key == key) {
-            return temp->value;
-        }
-        temp = temp->next;
-    }
-    return -1;
-}
-
+class Pair{
+	public:
+		LinkedList *primary;
+		LinkedList *overflow;
+		Pair(){
+			primary = NULL;
+			overflow = NULL;
+		}
+		Pair(LinkedList *primary, LinkedList *overflow){
+			this->primary = primary;
+			this->overflow = overflow;
+		}
+};
