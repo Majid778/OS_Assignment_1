@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Vector.h"
 #include "linkedList.h"
+#include "postallinkedlist.h"
 #include "String.h"
 using namespace std;
 
@@ -9,15 +10,22 @@ using namespace std;
 
 class LinearHash {	
 	private:
-
-		LinkedList *primary;
-		LinkedList *overflow;
-		int BucketSize,ptr;
-		Pair* bucket = new Pair(primary,overflow);
-		Vector *v = new Vector(bucket);
-		Vector *s = new Vector(0);
-		int size;
-		int capacity;
+	LinkedList* buckets;		
+	int size;					
+	int capacity;				
+	int numVoted;				
+public:
+	LinearHash(int capacity); 
+	~LinearHash(); 
+	unsigned long hashCode(const string key); 
+	void insert(const Voter v); 
+	bool remove(const string key, postalLinkedList& postalLinkedList);
+	Voter* search(const string key); 
+	bool modifyVoteStatus(const string key, postalLinkedList& postalLinkedList); 
+	int size(); 
+	int numofVoted(); 
+	float percentofVoted(); 
+}
 
 		
 
