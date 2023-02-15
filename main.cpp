@@ -31,19 +31,68 @@ void loadFile(LinearHash& LH, string filename){
     LH.print();
 }
 
+void menu(){
+    cout << "Commands:" << endl;
+    cout << "l <pin>" << endl;
+    cout << "i <pin> <lname> <fname> <zip>" << endl;
+    cout << "r <pin>" << endl;
+    cout << "bv <fileofkeys>" << endl;
+    cout << "v" << endl;
+    cout << "perc" << endl;
+    cout << "z <zipcode>" << endl;
+    cout << "o" << endl;
+    cout << "exit" << endl;
+}
 
 int main(){
 
-//create a linear hash table
-LinearHash linearHash(50);
-string filename = "voters50.csv";
-loadFile(linearHash, filename);
-//create a postal linked list
-postalLinkedList postalLinkedList;
+    LinearHash linearHash(50); //create a linear hash table
+    string filename = "voters50.csv";
+    loadFile(linearHash, filename);
+    postalLinkedList postalLinkedList;   //create a postal linked list
 
-//insert 10 voters
+    string user_input;
+	string command;
+	string parameter1;
+	string parameter2;
+    string parameter3;
+    string parameter4;
+    menu();
+	
+	do
+	{
+        parameter1 = "";
+	    parameter2 = "";
+        parameter3 = "";
+	    parameter4 = "";
+		cout<<">";
+		getline(cin,user_input);
+		stringstream sstr(user_input);
+		getline(sstr,command,' ');
+		getline(sstr,parameter1,' ');
+        getline(sstr,parameter2,' ');
+        getline(sstr,parameter3,' ');
+		getline(sstr,parameter4);
+		try
+		{		
+			if( command =="help" or command=="Help") menu(); 
+            else if( command =="l")	; 
+			else if( command =="i")	; 
+			else if( command=="r")	; 
+			else if( command =="bv") ; 
+			else if( command =="v")	; 
+			else if( command == "perc")  ;
+			else if( command =="z")	; 
+			else if( command =="o") ;	
+			else if( command == "Exit" or command=="exit") ;
+		}
+		catch(exception &e)
+		{
+			cout<<"Exception: "<<e.what()<<endl;
+		}
+
+	}while(command!="exit" and command!="quit");
 
 
-
-return 0;
+    return 0;
 }
