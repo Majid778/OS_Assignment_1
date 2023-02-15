@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <iostream>
 #include <cstring>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -32,6 +34,10 @@ public:
     friend istream &operator>>(istream &is, String &s);
     int getLength();
     char *getStr();
+    int stringtoint();
+    int Getline(istream &is, String var);
+    int Getline(istream &is, String var, char delim);
+
 };
 
 String::String()
@@ -173,6 +179,47 @@ char *String::getStr()
     return str;
 }
 
+int String::stringtoint()
+{
+    int i = 0;
+    int num = 0;
+    while (str[i] != '\0')
+    {
+        num = num * 10 + (str[i] - '0');
+        i++;
+    }
+    return num;
+}
+
+int String::Getline(istream &is, String &var)
+{
+    char c;
+    int count = 0;
+    var = "";
+    while (is.get(c))
+    {
+        if (c == '\n')
+            break;
+        var += c;
+        count++;
+    }
+    return count;
+}
+
+int String::Getline(istream &is, String &var, char delim)
+{
+    char c;
+    int count = 0;
+    var = "";
+    while (is.get(c))
+    {
+        if (c == delim)
+            break;
+        var += c;
+        count++;
+    }
+    return count;
+}
 
 
 

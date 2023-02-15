@@ -1,5 +1,7 @@
 #include <iostream>
+#include <string.h>
 #include "linkedlist.h"
+
 using namespace std;
 
 

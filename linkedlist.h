@@ -1,42 +1,47 @@
-#include "hashtable.h"
+#pragma once
+#include <string.h>
 
+using namespace std;
 
 
 class Voter{
 private:
-    String key;
-    String zipcode;
-    String first_name;
-    String last_name;
+
+    friend class HashTable;
+public:
+    string key;
+    string zipcode;
+    string first_name;
+    string last_name;
     bool voted;
-    voter(String key, String zipcode, String first_name, String last_name, bool voted){
+
+    Voter(){
+    }
+    Voter(string key, string zipcode, string first_name, string last_name, bool voted){
         this->key = key;
         this->zipcode = zipcode;
         this->first_name = first_name;
         this->last_name = last_name;
         this->voted = voted;
     }
-    friend class HashTable;
-public:
-    String get_key(){
-        return key;
+    void set_key(string key){
+        this->key = key;
     }
-    String get_zipcode(){
-        return zipcode;
+    void set_zipcode(string zipcode){
+        this->zipcode = zipcode;
     }
-    String get_first_name(){
-        return first_name;
+    void set_first_name(string first_name){
+        this->first_name = first_name;
     }
-    String get_last_name(){
-        return last_name;
-    }
-    bool get_voted(){
-        return voted;
+    void set_last_name(string last_name){
+        this->last_name = last_name;
     }
     void set_voted(bool voted){
         this->voted = voted;
     }
-}
+
+   
+};
 
 
 class Node {
@@ -44,6 +49,10 @@ public:
     Voter voter;
     Node *next;
     Node(){
+        next = NULL;
+    }
+    Node(Voter voter){
+        this->voter = voter;
         next = NULL;
     }
     friend class LinkedList;
@@ -71,10 +80,11 @@ public:
             return false;
         }
     }
-	const voterProfile front() const{
-        return head->voter;
+    //returns the first node in the list
+	Node* front(){
+        return head;
     }
-	voterProfile* get_Node(String PIN) const{
+	Voter* get_Node(string PIN) const{
         Node* temp = head;
         while(temp != NULL){
             if(temp->voter.key == PIN){
@@ -84,7 +94,7 @@ public:
         }
         return NULL;
     }
-	Node* get_Node_ptr(String PIN) const{
+	Node* get_Node_ptr(string PIN) const{
         Node* temp = head;
         while(temp != NULL){
             if(temp->voter.key == PIN){
@@ -94,13 +104,14 @@ public:
         }
         return NULL;
     }
-	void push_front(const voterProfile& e){
+	void push_front(const Voter& e){
+        //create a new node with the given data
         Node* temp = new Node;
         temp->voter = e;
         temp->next = head;
-        head = temp;
+        head = temp; 
     }
-    void push_back(const voterProfile& e){
+    void push_back(const Voter& e){
         Node* temp = new Node;
         temp->voter = e;
         temp->next = NULL;
@@ -128,7 +139,7 @@ public:
         delete temp->next;
         temp->next = NULL;
     }
-	bool rm_Node(String PIN){
+	bool rm_Node(string PIN){
         Node* temp = head;
         if(temp->voter.key == PIN){
             rm_front();
@@ -152,7 +163,7 @@ public:
             temp = temp->next;
         }
     }
-    void print(String PIN){
+    void print(string PIN){
         Node* temp = head;
         while(temp != NULL){
             if(temp->voter.key == PIN){
@@ -161,7 +172,7 @@ public:
             temp = temp->next;
         }
     }
-	bool change_Vote(String key){
+	bool change_Vote(string key){
         Node* temp = head;
         while(temp != NULL){
             if(temp->voter.key == key){
@@ -187,22 +198,3 @@ public:
 	
 };
 
-class Pair{
-	public:
-		LinkedList *primary;
-		LinkedList *overflow;
-		Pair(){
-			primary = NULL;
-			overflow = NULL;
-		}
-		Pair(LinkedList *primary, LinkedList *overflow){
-			this->primary = primary;
-			this->overflow = overflow;
-		}
-        getPrimary(){
-            return this->primary;
-        }
-        getOverflow(){
-            return this->overflow;
-        }
-};

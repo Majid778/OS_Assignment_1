@@ -1,12 +1,12 @@
+#pragma once
 #include <iostream>
-#include "Vector.h"
 #include "linkedList.h"
-#include "String.h"
+#include <string.h>
 
 
 class postalNode {
 public:
-	String postalcode; 
+	string postalcode; 
 	LinkedList* voters; 
 	postalNode* next; 
 	friend class postalLinkedList;
@@ -27,11 +27,11 @@ public:
             rm_front();
         }
     }
-    void push_front(String pcode, Node* node){
+    void push_front(string pcode, const Voter& e){
         postalNode* current = new postalNode;
         current->postalcode = pcode;
         current->voters = new LinkedList;
-        current->voters->push_front(node);
+        current->voters->push_front(e);
         current->next = head;
         head = current;
     }
@@ -40,7 +40,7 @@ public:
         head = head->next;
         delete current;
     }
-	bool rm_Node(String pcode){
+	bool rm_Node(string pcode){
         if(head == NULL){
             return false;
         }
@@ -62,21 +62,21 @@ public:
             return false;
         }
     }
-	const String front() const{
+	const string front(){
         return head->postalcode;
     }
-    	bool add_Voter(String pcode,Node* voterNode){
+    	bool add_Voter(string pcode,const Voter& e){
         postalNode* current = head;
         while(current != NULL){
             if(current->postalcode == pcode){
-                current->voters->push_front(voterNode);
+                current->voters->push_front(e);
                 return true;
             }
             current = current->next;
         }
         return false;
     }
-    bool rm_voter(String pcode, Node* node){
+    bool rm_voter(string pcode, Node* node){
         postalNode* current = head;
         while(current != NULL){
             if(current->postalcode == pcode){
@@ -87,7 +87,7 @@ public:
         }
         return false;
     }
-	LinkedList* get_Node(String pcode) const{
+	LinkedList* get_Node(string pcode) const{
         postalNode* current = head;
         while(current != NULL){
             if(current->postalcode == pcode){
@@ -97,7 +97,7 @@ public:
         }
         return NULL;
     }
-	postalNode* get_Node_ptr(String pcode) const{
+	postalNode* get_Node_ptr(string pcode) const{
         postalNode* current = head;
         while(current != NULL){
             if(current->postalcode == pcode){
@@ -116,7 +116,7 @@ public:
         }
     }
 
-	void print_zipcode(String key){
+	void print_zipcode(string key){
         postalNode* current = head;
         while(current != NULL){
             if(current->postalcode == key){
