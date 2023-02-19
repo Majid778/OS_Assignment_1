@@ -2,17 +2,24 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "linkedlist.h"
 #include <string.h>
 #include "linearHash.h"
 
 using namespace std;
-void loadFile(LinearHash& LH, string filename){
-    //load the file and insert the voters into the hash table
+void loadFile(LinearHash &LH, postalLinkedList &pll, string filename, string command)
+{
+    // load the file and insert the voters into the hash table
     ifstream file;
     file.open(filename);
     string line;
-    while(getline(file, line)){
+    // check if file is open
+    if (!file.is_open())
+    {
+        cout << "File not found" << endl;
+        return;
+    }
+    while (getline(file, line))
+    {
         stringstream ss(line);
         string key;
         string firstname;
@@ -22,16 +29,14 @@ void loadFile(LinearHash& LH, string filename){
         getline(ss, firstname, ' ');
         getline(ss, lastname, ' ');
         getline(ss, zipcode);
-
-        cout << key << " " << firstname << " " << lastname << " " << zipcode << endl;
-        //create a voter
-        Voter v(key, firstname, lastname, zipcode, false);
-        LH.insert(v);
+        LH.insert(key, zipcode, firstname, lastname, command, pll);
     }
     LH.print();
+    cout << "File loaded successfully..." << endl;
 }
 
-void menu(){
+void menu()
+{
     cout << "Commands:" << endl;
     cout << "l <pin>" << endl;
     cout << "i <pin> <lname> <fname> <zip>" << endl;
@@ -44,55 +49,73 @@ void menu(){
     cout << "exit" << endl;
 }
 
-int main(){
-
-    LinearHash linearHash(50); //create a linear hash table
-    string filename = "voters50.csv";
-    loadFile(linearHash, filename);
-    postalLinkedList postalLinkedList;   //create a postal linked list
+int main()
+{
+    int PRIMARYBUCKETCAPACITY = 10;
+    int INITIALCAPACITY = 2;
+    string filename = "voters500.csv";
+    LinearHash LH(INITIALCAPACITY, PRIMARYBUCKETCAPACITY); // create a linear hash table
+    LH.addbucket();
+    postalLinkedList postalLinkedList; // create a postal linked list
+    loadFile(LH, postalLinkedList, filename, "");
 
     string user_input;
-	string command;
-	string parameter1;
-	string parameter2;
+    string command;
+    string parameter1;
+    string parameter2;
     string parameter3;
     string parameter4;
+
     menu();
-	
-	do
-	{
+
+    do
+    {
         parameter1 = "";
-	    parameter2 = "";
+        parameter2 = "";
         parameter3 = "";
-	    parameter4 = "";
-		cout<<">";
-		getline(cin,user_input);
-		stringstream sstr(user_input);
-		getline(sstr,command,' ');
-		getline(sstr,parameter1,' ');
-        getline(sstr,parameter2,' ');
-        getline(sstr,parameter3,' ');
-		getline(sstr,parameter4);
-		try
-		{		
-			if( command =="help" or command=="Help") menu(); 
-            else if( command =="l")	; 
-			else if( command =="i")	; 
-			else if( command=="r")	; 
-			else if( command =="bv") ; 
-			else if( command =="v")	; 
-			else if( command == "perc")  ;
-			else if( command =="z")	; 
-			else if( command =="o") ;	
-			else if( command == "Exit" or command=="exit") ;
-		}
-		catch(exception &e)
-		{
-			cout<<"Exception: "<<e.what()<<endl;
-		}
+        parameter4 = "";
+        cout << ">";
+        getline(cin, user_input);
+        stringstream sstr(user_input);
+        getline(sstr, command, ' ');
+        getline(sstr, parameter1, ' ');
+        getline(sstr, parameter2, ' ');
+        getline(sstr, parameter3, ' ');
+        getline(sstr, parameter4);
+        try
+        {
+            if (command == "help" or command == "Help")
+                menu();
+            else if (command == "l")
+                LH.print(parameter1);
+            else if (command == "i")
+                LH.insert(parameter1, parameter2, parameter3, parameter4, command, postalLinkedList);
+            else if (command == "r")
+            {
+                LH.changeVote(parameter1, postalLinkedList);
+                postalLinkedList.print();
+            }
+            else if (command == "bv")
+                loadFile(LH, postalLinkedList, parameter1, "bv");
+            else if (command == "v")
+                cout << postalLinkedList.getsize() << " people have voted so far." << endl;
+            else if (command == "perc")
+                cout << ((double)postalLinkedList.getsize() / (double)LH.getsize()) * 100 << "% of people have voted so far" << endl;
+            else if (command == "z")
+                postalLinkedList.print_zipcode(parameter1);
+            else if (command == "o")
+                postalLinkedList.sort_descending();
+            else if (command == "exit")
+                ;
+            else
+                cout << "Invalid command. Type 'help' for a list of commands." << endl;
+        }
+        catch (exception &e)
+        {
+            cout << "Exception: " << e.what() << endl;
+        }
 
-	}while(command!="exit" and command!="quit");
-
+    } while (command != "exit" and command != "quit");
 
     return 0;
 }

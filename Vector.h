@@ -1,118 +1,37 @@
-#include <iostream>
-#include <string.h>
 #include "linkedlist.h"
+#include <stdexcept>
 
-using namespace std;
-
-
-
-
+class Pair
+{
+public:
+    int primarysize;
+    int primarycapacity;
+    LinkedList *primary;
+    LinkedList *overflow;
+    Pair();
+    Pair(LinkedList *primary, LinkedList *overflow, int primarycapacity);
+    LinkedList *getPrimary();
+    LinkedList *getOverflow();
+    void insert(Voter voter);
+    int getPrimarySize();
+    void incrementPrimarySize();
+    void print();
+};
 
 class Vector
 {
-private:
-    int *arr;
-    int size;
-    int capacity;
 public:
-    //implement a vector of linked lists
-    Vector(Pair* p)
-    {
-        arr = new int[1];
-        size = 0;
-        capacity = 1;
-        arr[0] = p;
-    }
-    Vector(int i)
-    {
-        arr = new int[1];
-        size = 0;
-        capacity = 1;
-        arr[0] = i;
-    }
+    Vector();
+    Vector(int initial_capacity);
+    ~Vector();
+    void push_back(const Pair &p);
+    int getSize() const;
+    Pair &operator[](int index);
+    void clear();
+    void resize();
 
-    Vector(LinkedList* d)
-    {
-        arr = new int[1];
-        size = 0;
-        capacity = 1;
-        arr[0] = d;
-    }
-
-    Vector()
-    {
-        arr = new int[1];
-        size = 0;
-        capacity = 1;
-    }
-
-    void push_back(LinkedList* d)
-    {
-        if (size == capacity)
-        {
-            int *temp = new int[2 * capacity];
-            for (int i = 0; i < capacity; i++)
-            {
-                temp[i] = arr[i];
-            }
-            delete[] arr;
-            capacity *= 2;
-            arr = temp;
-        }
-        arr[size] = d;
-        size++;
-    }
-    
-    void push_back(Pair* p)
-    {
-        if (size == capacity)
-        {
-            int *temp = new int[2 * capacity];
-            for (int i = 0; i < capacity; i++)
-            {
-                temp[i] = arr[i];
-            }
-            delete[] arr;
-            capacity *= 2;
-            arr = temp;
-        }
-        arr[size] = p;
-        size++;
-    }
-
-    void pop_back()
-    {
-        if (size == 0)
-        {
-            cout << "Vector is empty" << endl;
-            return;
-        }
-        size--;
-    }
-    int get(int index)
-    {
-        if (index >= size)
-        {
-            cout << "Index out of range" << endl;
-            return -1;
-        }
-        return arr[index];
-    }
-    int getsize()
-    {
-        return size;
-    }
-    int getcapacity()
-    {
-        return capacity;
-    }
-    void print()
-    {
-        for (int i = 0; i < size; i++)
-        {
-            cout << arr[i] << " ";
-        }
-        cout << endl;
-    }
+private:
+    int capacity;
+    int size;
+    Pair *data;
 };
-
