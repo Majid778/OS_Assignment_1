@@ -1,8 +1,11 @@
 CXX = g++
 CXXFLAGS = -Wall -std=c++11
 
-all: main.o linearHash.o Vector.o linkedlist.o postallinkedlist.o
-	$(CXX) $(CXXFLAGS) -o main main.o linearHash.o Vector.o linkedlist.o postallinkedlist.o
+all: mvote.o linearHash.o Vector.o linkedlist.o postallinkedlist.o
+	$(CXX) $(CXXFLAGS) -o mvote mvote.o linearHash.o Vector.o linkedlist.o postallinkedlist.o
+
+mvote.o: mvote.cpp
+	$(CXX) $(CXXFLAGS) -c mvote.cpp
 
 linearHash.o: linearHash.cpp 
 	$(CXX) $(CXXFLAGS) -c linearHash.cpp
@@ -17,4 +20,4 @@ postallinkedlist.o: postallinkedlist.cpp
 	$(CXX) $(CXXFLAGS) -c postallinkedlist.cpp
 
 clean:
-	rm -f *.o all
+	rm -f *.o mvote

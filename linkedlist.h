@@ -4,45 +4,46 @@ class Voter
 {
 private:
 public:
-    std::string key;
-    std::string zipcode;
-    std::string first_name;
-    std::string last_name;
-    bool voted;
+    std::string key;        // PIN
+    std::string zipcode;    // zipcode
+    std::string first_name; // first name
+    std::string last_name;  // last name
+    bool voted;             // voted or not
 
-    Voter();
-    Voter(std::string key, std::string zipcode, std::string first_name, std::string last_name, bool voted);
-    void print();
+    Voter();                                                                                                // default constructor
+    Voter(std::string key, std::string zipcode, std::string first_name, std::string last_name, bool voted); // constructor
+    void print();                                                                                           // print the voter
 };
 
+// Node class
 class Node
 {
 public:
-    Voter voter;
-    Node *next;
+    Voter voter; // voter object
+    Node *next;  // pointer to the next node
 
-    Node();
-    Node(Voter voter);
+    Node();            // default constructor
+    Node(Voter voter); // constructor
 };
 
 class LinkedList
 {
 private:
-    Node *head;
-    int LLsize;
+    Node *head; // pointer to the head of the linked list
+    int LLsize; // size of the linked list
 
 public:
-    LinkedList();
-    ~LinkedList();
-    bool empty() const;
-    int size() const;
-    void incrementsize();
-    Node *front();
-    Voter *get_Node(std::string PIN) const;
-    void push_front(const Voter &e);
-    void rm_front();
-    bool rm_Node(std::string PIN);
-    void print();
-    void print(std::string PIN);
-    bool change_Vote(std::string key);
+    LinkedList();                           // default constructor
+    ~LinkedList();                          // destructor
+    bool empty() const;                     // check if the linked list is empty
+    int size() const;                       // get the size of the linked list
+    void incrementsize();                   // increment the size of the linked list
+    Node *front();                          // get the head of the linked list
+    Voter *get_Node(std::string PIN) const; // get a voter from the linked list
+    void push_front(const Voter &e);        // insert a voter into the linked list
+    void rm_front();                        // remove the head of the linked list
+    bool rm_Node(std::string PIN);          // remove a voter from the linked list
+    void print();                           // print the linked list
+    void print(std::string PIN);            // print a voter in the linked list
+    bool change_Vote(std::string key);      // change the vote status of a voter
 };

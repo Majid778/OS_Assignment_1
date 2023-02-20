@@ -4,12 +4,12 @@
 using namespace std;
 
 postalLinkedList::postalLinkedList()
-{
+{ // default constructor
     head = NULL;
     size = 0;
 }
 
-postalLinkedList::~postalLinkedList()
+postalLinkedList::~postalLinkedList() // destructor
 {
     while (!empty())
     {
@@ -19,7 +19,7 @@ postalLinkedList::~postalLinkedList()
 
 void postalLinkedList::push_front(string zip, const Voter &e)
 {
-
+    // insert a voter into the front of the linked list
     postalNode *current = new postalNode;
     current->postalcode = zip;
     current->voters = new LinkedList;
@@ -31,6 +31,7 @@ void postalLinkedList::push_front(string zip, const Voter &e)
 
 void postalLinkedList::rm_front()
 {
+    // remove the head of the linked list
     postalNode *current = head;
     head = head->next;
     delete current;
@@ -38,34 +39,36 @@ void postalLinkedList::rm_front()
 
 const string postalLinkedList::front()
 {
+    // get the head of the linked list
     return head->postalcode;
 }
 
 bool postalLinkedList::add_Voter(string zip, const Voter &e)
 {
+    // add a voter to the linked list
     LinkedList *current = get_Node(zip);
-    if (empty())
+    if (empty()) // if the linked list is empty create a new node
     {
         push_front(zip, e);
         numofzipcodes++;
         return true;
     }
-    else if (current != NULL)
+    else if (current != NULL) // if the zipcode is already in the linked list add the voter to the linked list
     {
         current->push_front(e);
         return true;
     }
-    else
+    else // if the zipcode is not in the linked list
     {
-        push_front(zip, e);
+        push_front(zip, e); // insert the voter into the linked list
         numofzipcodes++;
         return true;
     }
     return false;
 }
 
-LinkedList *postalLinkedList::get_Node(string zip) const
-{
+LinkedList *postalLinkedList::get_Node(string zip) const // get a voter from the linked list
+{                                                        // get a the voters from the linked list using the zipcode
     postalNode *current = head;
     while (current != NULL)
     {
@@ -79,7 +82,7 @@ LinkedList *postalLinkedList::get_Node(string zip) const
 }
 
 postalNode *postalLinkedList::get_Node_ptr(string zip) const
-{
+{ // get a the voters pointer from the linked list using the zipcode
     postalNode *current = head;
     while (current != NULL)
     {
@@ -93,7 +96,7 @@ postalNode *postalLinkedList::get_Node_ptr(string zip) const
 }
 
 void postalLinkedList::print()
-{
+{ // print the linked list
     postalNode *current = head;
     while (current != NULL)
     {
@@ -103,7 +106,7 @@ void postalLinkedList::print()
 }
 
 void postalLinkedList::print_zipcode(string key)
-{
+{ // print all the voters in the zipcode
     postalNode *current = head;
     while (current != NULL)
     {
@@ -115,7 +118,7 @@ void postalLinkedList::print_zipcode(string key)
     }
 }
 bool postalLinkedList::empty() const
-{
+{ // check if the linked list is empty
     if (head == NULL)
     {
         return true;
@@ -127,7 +130,7 @@ bool postalLinkedList::empty() const
 }
 
 int postalLinkedList::getsize()
-{
+{ // get the size of the linked list
     int s = 0;
     for (postalNode *current = head; current != NULL; current = current->next)
     {
@@ -137,7 +140,7 @@ int postalLinkedList::getsize()
 }
 
 void postalLinkedList::sort_descending()
-{
+{ // insert linked list into an array and sort the array
     ZipSize zipArray[numofzipcodes];
     int index = 0;
     postalNode *current = head;
@@ -148,7 +151,7 @@ void postalLinkedList::sort_descending()
         index++;
         current = current->next;
     }
-
+    // sort the array
     for (int i = 0; i < numofzipcodes; i++)
     {
         for (int j = i + 1; j < numofzipcodes; j++)
@@ -161,16 +164,16 @@ void postalLinkedList::sort_descending()
             }
         }
     }
-
+    // print the array
     for (int i = 0; i < numofzipcodes; i++)
     {
         cout << "Zipcode: " << zipArray[i].zipcode << "| Number of people that have voted: " << zipArray[i].size << endl;
     }
 }
 
-ZipSize::ZipSize() {}
+ZipSize::ZipSize() {} // default constructor
 
-ZipSize::ZipSize(std::string z, int s)
+ZipSize::ZipSize(std::string z, int s) // constructor
 {
     zipcode = z;
     size = s;
