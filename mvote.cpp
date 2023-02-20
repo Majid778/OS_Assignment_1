@@ -54,7 +54,7 @@ void menu()
 
 int main(int argc, char *argv[])
 {
-    int INITIALCAPACITY = 2;
+    int INITIALCAPACITY = 2;// initial buckets of the hash table
     string filename;
     int PRIMARYBUCKETCAPACITY;
     // check if the user has entered the correct number of arguments
